@@ -1,0 +1,17 @@
+git+https://github.com/huggingface/transformers
+datasets
+accelerate
+deepspeed
+evaluate
+matplotlib
+hydra-core
+omegaconf
+peft
+rouge_score
+tqdm
+matplotlib
+einops
+packaging
+bitsandbytes
+scipy
+ninja
