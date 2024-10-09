@@ -147,7 +147,6 @@ class CustomTrainerForgetting(Trainer):
     
     def compute_loss(self, model, inputs, return_outputs=False):
         if self.loss_type == "grad_ascent":
-            # print("########## gradient_ascent ########")
             forget_inputs, retain_inputs = inputs
             input_ids, labels, attention_mask = forget_inputs
             outputs = model(input_ids,labels=labels, attention_mask=attention_mask)         ##attention_mask is used to indicate which tokens to attend to ()
@@ -156,7 +155,6 @@ class CustomTrainerForgetting(Trainer):
             loss = forget_loss
 
         elif self.loss_type == "fine_tuned":
-            # print("########## fine_tuned ########")
             _, retain_inputs = inputs
             retain_input_ids, retain_labels, retain_attention_mask = retain_inputs
             retain_outputs = model(retain_input_ids,labels=retain_labels, attention_mask=retain_attention_mask)
@@ -269,13 +267,9 @@ class CustomTrainerForgetting(Trainer):
                 loss = loss + retain_loss
 
         elif self.loss_type == "simnpo":
-            # print("########## simnpo ########")
             forget_inputs, _ = inputs
             input_ids, labels, attention_mask = forget_inputs
             outputs = model(input_ids,labels=labels, attention_mask=attention_mask)
-            # forget_loss = get_batch_loss(outputs.logits, labels) / attention_mask.sum(-1)
-            # print(labels)
-            # print(attention_mask)
             loss_mask = labels != -100
             forget_loss = get_batch_loss(outputs.logits, labels) / loss_mask.sum(-1) - self.gamma
 
@@ -287,25 +281,12 @@ class CustomTrainerForgetting(Trainer):
             outputs = model(input_ids,labels=labels, attention_mask=attention_mask)
             loss_mask = labels != -100
             forget_loss = get_batch_loss(outputs.logits, labels) / loss_mask.sum(-1) - self.gamma
-            # forget_loss = get_batch_loss(outputs.logits, labels) / attention_mask.sum(-1)
             forget_loss = -F.logsigmoid(self.beta * forget_loss).mean() * 2 / self.beta
 
             retain_input_ids, retain_labels, retain_attention_mask = retain_inputs
             retain_outputs = model(retain_input_ids,labels=retain_labels, attention_mask=retain_attention_mask)
             retain_loss = retain_outputs.loss
             loss = self.npo_coeff * forget_loss + self.grad_diff_coeff * retain_loss
-
-            # R = outputs.logits / attention_mask.sum(-1)
-            # exp_term = torch.exp(self.beta * R)
-            # xp_term = 2 * exp_term / ((1 + exp_term) * attention_mask.sum(-1))
-            # xp_term_gathered = [torch.zeros_like(xp_term) for _ in range(dist.get_world_size())]
-            # dist.all_gather(xp_term_gathered, xp_term)
-
-            # if dist.get_rank() == 0:
-            #     for term in xp_term_gathered:
-            #         self.xp_terms.append(term.detach().cpu().numpy().mean())
-
-            # print(len(self.xp_terms))
 
         ### Implement the NPO
         elif self.loss_type == 'npo':
@@ -323,19 +304,6 @@ class CustomTrainerForgetting(Trainer):
             else:
                 raise NotImplementedError
             loss = -F.logsigmoid(self.beta * neg_log_ratios).mean() * 2 / self.beta
-            
-            # R = outputs.logits - forget_outputs_oracle.logits
-            # exp_term = torch.exp(self.beta * R)
-            # xp_term = 2 * exp_term / (1 + exp_term)
-            # xp_term_gathered = [torch.zeros_like(xp_term) for _ in range(dist.get_world_size())]
-            # dist.all_gather(xp_term_gathered, xp_term)
-
-            # if dist.get_rank() == 0:
-            #     for term in xp_term_gathered:
-            #         self.xp_terms.append(term.detach().cpu().numpy().mean())
-
-            # print("xp_term: ", len(self.xp_terms))
-
 
         elif self.loss_type == 'npo_grad_diff':
             # print(inputs)
@@ -358,18 +326,6 @@ class CustomTrainerForgetting(Trainer):
             retain_outputs = model(retain_input_ids,labels=retain_labels, attention_mask=retain_attention_mask)
             retain_loss = retain_outputs.loss
             loss = self.npo_coeff * forget_loss + self.grad_diff_coeff * retain_loss
-
-            # R = outputs.logits - forget_outputs_oracle.logits
-            # exp_term = torch.exp(self.beta * R)
-            # xp_term = 2 * exp_term / (1 + exp_term)
-            # xp_term_gathered = [torch.zeros_like(xp_term) for _ in range(dist.get_world_size())]
-            # dist.all_gather(xp_term_gathered, xp_term)
-
-            # if dist.get_rank() == 0:
-            #     for term in xp_term_gathered:
-            #         self.xp_terms.append(term.detach().cpu().numpy().mean())
-
-            # print(len(self.xp_terms))
             
         elif self.loss_type == 'npo_KL':
             forget_inputs, retain_inputs = inputs
@@ -620,88 +576,6 @@ class CustomTrainerForgetting(Trainer):
 
                 with open(os.path.join(curr_save_dir, "truth_ratio.pkl"), 'wb') as picklefile:
                     pickle.dump(trust_ratio, picklefile)
-
-    def get_all_loss(
-        self,
-        eval_dataset = None,
-        # mode = None,
-        # ignore_keys = None,
-        # metric_key_prefix = "eval",
-    ):
-        '''
-        RZ: Call this function in Trainer.train() when evakluating the performace of each checkpoint.
-        '''
-
-        args = self.args
-        model = self._wrap_model(self.model, training=False, dataloader=None)
-
-        print('####### Evaluating the model...... #######')
-        print(self.is_in_train, args.device, model.dtype, self.args.dataloader_num_workers, self.eval_cfg.split_list)
-
-        if len(self.accelerator._models) == 0 and model is self.model:
-            model = (
-                self.accelerator.prepare(model)
-                if self.is_deepspeed_enabled
-                else self.accelerator.prepare_model(model, evaluation_mode=True)
-            )
-
-            if self.is_fsdp_enabled:
-                self.model = model
-
-            # for the rest of this function `model` is the outside model, whether it was wrapped or not
-            if model is not self.model:
-                self.model_wrapped = model
-
-            # backward compatibility
-            if self.is_deepspeed_enabled:
-                self.deepspeed = self.model_wrapped
-
-        # if full fp16 or bf16 eval is wanted and this ``evaluation`` or ``predict`` isn't called
-        # while ``train`` is running, cast it to the right dtype first and then put on device
-        if not self.is_in_train:
-            if args.fp16_full_eval:
-                model = model.to(dtype=torch.float16, device=args.device)
-            elif args.bf16_full_eval:
-                model = model.to(dtype=torch.bfloat16, device=args.device)
-        
-        model.eval()
-        curr_step = self.state.global_step
-        eval_cfg = self.eval_cfg
-
-        curr_save_dir = os.path.join(eval_cfg.save_dir, f"checkpoint-{curr_step}")
-        Path(curr_save_dir).mkdir(parents=True, exist_ok=True)
-
-        forget_rate = eval_cfg.split_list[-1].split('_')[0]
-        from data_module import TextDatasetQA, custom_data_collator, get_batch_loss
-
-        eval_dataloader = torch.utils.data.DataLoader(
-            eval_dataset, batch_size=eval_cfg.batch_size, collate_fn=custom_data_collator
-        )
-        eval_dataloader = self.accelerator.prepare(eval_dataloader)
-        results = []
-
-        for batch in tqdm.tqdm(eval_dataloader):
-            input_ids, labels, attention_mask = batch
-            batch = {"input_ids": input_ids, "labels": labels, "attention_mask": attention_mask}
-            #send to device
-            for k, v in batch.items():
-                batch[k] = v.to(model.device)
-
-            with torch.no_grad():
-                outputs = model(**batch)
-                outputs_ref = self.oracle_model(**batch)
-
-            loss = outputs.loss
-            length = attention_mask.sum(-1)
-
-            print(loss.item(), length)
-            results.append({
-                'loss': loss.item(),
-                # 'ga_coeff': ga_coeff[i].item(),
-                'length': length.item(),
-            })
-            
-        return results
 
 class CustomTrainerRetraining(Trainer):
     def __init__(self, *args, **kwargs):

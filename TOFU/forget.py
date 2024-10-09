@@ -62,11 +62,6 @@ def main(cfg):
     print("Saving to: ", cfg.save_dir)
     print("######################")
 
-    # if os.path.exists(cfg.save_dir):
-    #     print("Directory already exists")
-    #     if not cfg.overwrite_dir:
-    #         exit()
-
     max_length = 500
 
     # determine the data path.

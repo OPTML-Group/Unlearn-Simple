@@ -223,82 +223,12 @@ class TextDatasetQA(Dataset):
         return torch.stack(pad_input_ids_list).squeeze(),\
                 torch.stack(label_list).squeeze(),\
                 torch.stack(pad_attention_mask_list).squeeze()
-    
+
+
 from datasets import load_dataset, concatenate_datasets
 from collections import defaultdict
-
-# class BaseDataset:
-#     def __init__(self, if_llama=False, dataset_path=None):
-#         self.dataset_path = dataset_path
-#         self.if_llama = if_llama
-#         self.question_start_token = "[INST] " if self.if_llama else "### Question: "
-#         self.question_end_token = " [/INST]" if if_llama else "\n"
-#         self.answer_start_token = " " if if_llama else "### Answer: "
-
-#     def get_dataset(self):
-#         pass
-
-#     def __preprocess__(self, tokenizer, forget_ratio, dataset_seed):
-#         pass
-
-#     def build_dataset(self, tokenizer, forget_ratio, dataset_seed):
-#         pass
-
-#     def _padding_fn(self, prompt, response, max_length, tokenizer):
-#         text = (
-#             self.question_start_token
-#             + prompt
-#             + self.question_end_token
-#             + self.answer_start_token
-#             + response
-#         )
-#         tokenized = tokenizer(
-#             text,
-#             truncation=True,
-#             padding="max_length",
-#             add_special_tokens=True,
-#         )
-#         num_prompt_token = len(
-#             tokenizer.tokenize(
-#                 self.question_start_token + prompt + self.question_end_token,
-#                 add_special_tokens=True,
-#             )
-#         )
-#         pad_length = max_length - len(tokenized.input_ids)
-#         if pad_length < 0:
-#             return None
-#         pad_input_ids = tokenized.input_ids + [tokenizer.pad_token_id] * pad_length
-#         pad_attention_mask = tokenized.attention_mask + [0] * pad_length
-#         if len(tokenized.input_ids) == max_length:
-#             label = tokenized.input_ids
-#         else:
-#             label = (
-#                 tokenized.input_ids
-#                 + [tokenizer.eos_token_id]
-#                 + [-100] * (pad_length - 1)
-#             )
-#         for i in range(num_prompt_token):
-#             label[i] = -100
-
-#         assert (
-#             len(pad_input_ids) == max_length
-#         ), f"input_id length mismatch: {len(pad_input_ids)} (expect: {max_length})"
-#         assert (
-#             len(pad_attention_mask) == max_length
-#         ), f"attention_mask length mismatch: {len(pad_attention_mask)} (expect: {max_length})"
-#         assert (
-#             len(label) == max_length
-#         ), f"label length mismatch: {len(label)} (expect: {max_length})"
-
-#         return {
-#             "input_ids": torch.tensor(pad_input_ids),
-#             "attention_mask": torch.tensor(pad_attention_mask),
-#             "labels": torch.tensor(label),
-#         }
-
 class WMDPDataset:
     def __init__(self, seed=42, ratio=1.0, subset="forget"):
-        # super().__init__(dataset_path=dataset_path)
         self.ratio = ratio
         self.seed = seed
         self.subset = subset
@@ -331,37 +261,6 @@ class WMDPDataset:
         dataset["train"] = concatenate_datasets([train_dataset_cyber, train_dataset_bio])
 
         return dataset
-        # self.forget_data = concatenate_datasets([train_dataset_cyber, train_dataset_bio])
-        
-        # train_dataset = self.dataset["train"].map(
-        #     preprocess, batched=True, remove_columns=self.dataset["train"].column_names
-        # )
-        # test_dataset = self.dataset["test"].map(
-        #     preprocess, batched=True, remove_columns=self.dataset["test"].column_names
-        # )
-
-        # train_dataset.set_format(
-        #     type="torch", columns=["input_ids", "attention_mask", "labels"]
-        # )
-
-        # test_dataset.set_format(
-        #     type="torch", columns=["input_ids", "attention_mask", "labels"]
-        # )
-
-        # self.dataset["train"] = train_dataset
-        # self.dataset["test"] = test_dataset
-
-        # length = len(total_data)
-        # total_data = total_data.shuffle(seed=self.seed)
-        # total_data = total_data.select(range(int(length * self.ratio)))
-        # dataset = defaultdict()
-        # total_data = total_data.train_test_split(test_size=0.1, seed=self.seed)
-        # dataset["test"] = total_data["test"]
-        # dataset["train"] = total_data["train"]
-
-        # dataset = defaultdict()
-        # dataset["train"] = train_dataset
-        # return dataset
 
     def __preprocess__(self, tokenizer):
         def preprocess(examples):
@@ -376,58 +275,17 @@ class WMDPDataset:
             results["input_ids"] = tokenized.input_ids
             results["attention_mask"] = tokenized.attention_mask
             results["labels"] = tokenized.input_ids
-            # results = [
-            #     tokenized.input_ids,
-            #     tokenized.attention_mask,
-            #     tokenized.input_ids,
-            # ]
-
             return results
-        
-        # def preprocess_test(examples):
-        #     prompt_template = "The followingare multiple choice questions (with answers) about Cybersecurity.\n\n {}\nA.{}\nB.{}\nC.{}\nD.{}\n\n"
-        #     results = {
-        #         "input_ids": [],
-        #         "attention_mask": [],
-        #         "answer": [],
-        #     }
-        #     for i in range(len(examples["question"])):
-        #         question = examples["question"][i]
-        #         choices = examples["choices"][i]
-        #         prompt = prompt_template.format(
-        #             question, choices[0], choices[1], choices[2], choices[3]
-        #         )
-        #         full_prompt = (
-        #             self.question_start_token
-        #             + prompt
-        #             + self.question_end_token
-        #             + self.answer_start_token
-        #         )
-        #         inputs = tokenizer(
-        #             full_prompt, max_length=1024, padding="max_length", truncation=True
-        #         )
-        #         results["input_ids"].append(torch.tensor(inputs["input_ids"]))
-        #         results["attention_mask"].append(torch.tensor(inputs["attention_mask"]))
-        #         results["answer"].append(examples["answer"][i])
-        #     return results
 
         train_dataset = self.dataset["train"].map(
             preprocess, batched=True, remove_columns=self.dataset["train"].column_names
         )
-        # test_dataset = self.dataset["test"].map(
-        #     preprocess_test, batched=True, remove_columns=self.dataset["test"].column_names
-        # )
 
         train_dataset.set_format(
             type="torch", columns=["input_ids", "attention_mask", "labels"]
         )
 
-        # test_dataset.set_format(
-        #     type="torch", columns=["input_ids", "attention_mask", "labels"]
-        # )
-
         self.dataset["train"] = train_dataset
-        # self.dataset["test"] = test_dataset
 
     def build_dataset(self, tokenizer):
         self.__preprocess__(tokenizer)
@@ -447,17 +305,6 @@ class UnlearnDataset(Dataset):
         raise ValueError("No dataset available.")
 
     def __getitem__(self, idx):
-        # data = {"forget": None, "retain": None}
-
-        # if self.forget_dataset:
-        #     data["forget"] = self.forget_dataset[idx]
-        #     if self.retain_dataset:
-        #         retain_idx = random.randint(0, len(self.retain_dataset) - 1)
-        #         data["retain"] = self.retain_dataset[retain_idx]
-        # elif self.retain_dataset:
-        #     data["retain"] = self.retain_dataset[idx]
-        # print(data)
-
         forget_data = self.forget_dataset[idx]
         retain_idx = random.randint(0, len(self.retain_dataset) - 1)
         retain_data = self.retain_dataset[retain_idx]
@@ -481,74 +328,6 @@ def unlearncollector(samples):
             torch.stack([sample["label"] for sample in retain_samples])
         )
     return res
-
-# class StackUnlearnDataset(Dataset):
-#     """
-#     Stack multiple datasets together. If the datasets are dictionaries, the keys are used to
-#     stack the datasets. Otherwise, the datasets are stacked in order. @ljcc
-#     """
-
-#     def set_epoch(self, epoch):
-#         self.epoch = epoch
-
-#     def __init__(self, *args, **kwargs):
-#         if args:
-#             if kwargs:
-#                 raise ValueError("Arguments and keyword arguments cannot be mixed")
-#             self._length = len(args[0])
-#             self.datasets = args
-#         else:
-#             if "main_key" in kwargs:
-#                 main_key = kwargs.pop("main_key")
-#                 assert (
-#                     main_key in kwargs
-#                 ), f'key: "{main_key}" (main_key) must be provided'
-#                 self._length = len(kwargs[main_key])
-#             else:
-#                 self._length = max(len(dataset) for dataset in kwargs.values())
-#             self.datasets = kwargs
-#         self.epoch = 0
-
-#     def __getitem__(self, index):
-#         idx = index + self._length * self.epoch
-
-#         if isinstance(self.datasets, dict):
-#             item = {
-#                 key: dataset[idx % len(dataset)]
-#                 for key, dataset in self.datasets.items()
-#             }
-#         else:
-#             item = [dataset[idx % len(dataset)] for dataset in self.datasets]
-#         return item
-
-#     def __len__(self):
-#         return self._length
-
-# from dataclasses import dataclass
-# from transformers.data.data_collator import DefaultDataCollator, default_data_collator   
-# @dataclass
-# class StackDataCollator(DefaultDataCollator):
-#     """
-#     Collator for StackUnlearnDataset. @ljcc
-#     """
-
-#     def __call__(self, features, return_tensors=None):
-#         if return_tensors is None:
-#             return_tensors = self.return_tensors
-
-#         first = features[0]
-#         if isinstance(first, dict):
-#             collated = {
-#                 key: default_data_collator([f[key] for f in features], return_tensors)
-#                 for key in first.keys()
-#             }
-#         else:
-#             collated = [
-#                 default_data_collator([f[i] for f in features], return_tensors)
-#                 for i in range(len(first))
-#             ]
-#         return collated
-
 
 def collate_fn(batch):
     input_ids, attention_masks = zip(*batch)

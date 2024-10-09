@@ -1,0 +1,32 @@
+name: muse
+channels:
+  - defaults
+dependencies:
+  - pip=23.3
+  - python=3.10
+  - pip:
+    - accelerate==0.29
+    - bitsandbytes==0.43
+    - datasets==2.19
+    - einops==0.7
+    - huggingface-hub==0.22
+    - ipykernel==6.29
+    - ipython==8.24
+    - ipywidgets==8.1
+    - matplotlib==3.9
+    - matplotlib-inline==0.1
+    - numpy==1.26
+    - openai==1.23
+    - pandas==2.2
+    - protobuf==5.26
+    - python-dotenv==1.0
+    - rouge-score==0.1
+    - scienceplots==2.1
+    - scikit-learn==1.4
+    - scipy==1.13
+    - seaborn==0.13
+    - sympy==1.12
+    - tokenizers==0.19
+    - torch==2.2
+    - tqdm
+    - transformers==4.40

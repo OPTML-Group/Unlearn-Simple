@@ -24,8 +24,6 @@ muse/metrics/__pycache__/
 muse/temp/
 muse/data/
 
-wmdp/
-
 plot/
 plot/figures/
 *.sh

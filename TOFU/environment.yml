@@ -1,4 +1,4 @@
-name: blue
+name: tofu
 channels:
   - pytorch
   - nvidia
@@ -257,4 +257,3 @@ dependencies:
       - ujson==5.9.0
       - xxhash==3.4.1
       - yarl==1.9.4
-prefix: /egr/research-optml/chongyu/anaconda3/envs/blue

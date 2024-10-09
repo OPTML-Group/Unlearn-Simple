@@ -13,11 +13,11 @@ gradient_accumulation_steps: 1
 num_epochs: 10
 forget_loss: npo_grad_diff
 
-npo_coeff: 1.0
+npo_coeff: 5.0
 grad_diff_coeff: 1.0
 KL_coeff: 1.0
 ref_policy: fine_tuned
-beta: 0.1
+beta: 5.5
 weight_decay: 0.0
 
 seed: 1001
