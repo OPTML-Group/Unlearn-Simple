@@ -2,9 +2,15 @@
  
 # Simplicity Prevails: Rethinking Negative Preference Optimization for LLM Unlearning
 
+[![issues](https://img.shields.io/badge/Issues-Welcome!-yellow)](https://github.com/OPTML-Group/Unlearn-Saliency/issues)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue)](https://github.com/OPTML-Group/Unlearn-Simple?tab=MIT-1-ov-file)
+[![GitHub top language](https://img.shields.io/github/languages/top/OPTML-Group/Unlearn-Simple)](https://github.com/OPTML-Group/Unlearn-Simple)
+[![GitHub repo size](https://img.shields.io/github/repo-size/OPTML-Group/Unlearn-Simple)](https://github.com/OPTML-Group/Unlearn-Simple)
+[![GitHub stars](https://img.shields.io/github/stars/OPTML-Group/Unlearn-Simple)](https://github.com/OPTML-Group/Unlearn-Simple)
+
 </div>
 
-This is the official code repository for the paper [Simplicity Prevails: Rethinking Negative Preference Optimization for LLM Unlearning]().
+This is the official code repository for the paper Simplicity Prevails: Rethinking Negative Preference Optimization for LLM Unlearning.
 
 ## Abstract
 
