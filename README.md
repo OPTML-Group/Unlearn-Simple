@@ -29,9 +29,9 @@ In this work, we address the problem of large language model (LLM) unlearning, a
 </table>
 
 ## Getting Started
-* [SimNPO on TOFU and WMDP](TOFU/README.md)
-* [SimNPO on MUSE](MUSE/README.md)
-* [SimNPO on Synthetic data](synthetic/README.md)
+* [SimNPO on TOFU and WMDP](TOFU)
+* [SimNPO on MUSE](MUSE)
+* [SimNPO on Synthetic data](synthetic)
 
 ## Contributors
 
@@ -39,6 +39,6 @@ In this work, we address the problem of large language model (LLM) unlearning, a
 * [Jiancheng Liu](https://ljcc0930.github.io/)
 * [Licong Lin](https://licong-lin.github.io/)
 
-## Cite This Work
+<!--## Cite This Work
 ```
-```
+```--!>
