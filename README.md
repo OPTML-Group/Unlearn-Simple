@@ -2,8 +2,9 @@
  
 # Simplicity Prevails: Rethinking Negative Preference Optimization for LLM Unlearning
 
-![preprint](https://img.shields.io/badge/arXiv-TBA-B31B1B)
+[![preprint](https://img.shields.io/badge/arXiv-2410.07163-B31B1B)](https://arxiv.org/abs/2410.07163)
 [![issues](https://img.shields.io/badge/Issues-Welcome!-yellow)](https://github.com/OPTML-Group/Unlearn-Saliency/issues)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue)](https://github.com/OPTML-Group/Unlearn-Simple?tab=MIT-1-ov-file)
 [![GitHub top language](https://img.shields.io/github/languages/top/OPTML-Group/Unlearn-Simple)](https://github.com/OPTML-Group/Unlearn-Simple)
 [![GitHub repo size](https://img.shields.io/github/repo-size/OPTML-Group/Unlearn-Simple)](https://github.com/OPTML-Group/Unlearn-Simple)
@@ -11,12 +12,11 @@
 
 </div>
 
-This is the official code repository for the paper Simplicity Prevails: Rethinking Negative Preference Optimization for LLM Unlearning.
+This is the official code repository for the paper [Simplicity Prevails: Rethinking Negative Preference Optimization for LLM Unlearning](https://arxiv.org/abs/2410.07163).
 
 ## Abstract
 
 In this work, we address the problem of large language model (LLM) unlearning, aiming to remove unwanted data influences and associated model capabilities (*e.g.*, copyrighted data or harmful content generation) while preserving essential model utilities, without the need for retraining from scratch. Despite the growing need for LLM unlearning, a principled optimization framework remains lacking. To this end, we revisit the state-of-the-art approach, negative preference optimization (NPO), and identify the issue of reference model bias, which could undermine NPO's effectiveness, particularly when unlearning forget data of varying difficulty. Given that, we propose a simple yet effective unlearning optimization framework, called **SimNPO**, showing that 'simplicity' in removing the reliance on a reference model (through the lens of simple preference optimization) benefits unlearning. We also provide deeper insights into SimNPO's advantages, supported by analysis using mixtures of Markov chains. Furthermore, we present extensive experiments validating SimNPO's superiority over existing unlearning baselines in benchmarks like TOFU and MUSE, and robustness against relearning attacks.
-
 
 <table align="center">
   <tr>
@@ -39,6 +39,12 @@ In this work, we address the problem of large language model (LLM) unlearning, a
 * [Jiancheng Liu](https://ljcc0930.github.io/)
 * [Licong Lin](https://licong-lin.github.io/)
 
-<!--## Cite This Work
+## Cite This Work
 ```
-```--!>
+@article{fan2024simplicity,
+  title={Simplicity Prevails: Rethinking Negative Preference Optimization for LLM Unlearning},
+  author={Fan, Chongyu and Liu, Jiancheng and Lin, Licong and Jia, Jinghan and Zhang, Ruiqi and Mei, Song and Liu, Sijia},
+  journal={arXiv preprint arXiv:2410.07163},
+  year={2024}
+}
+```
