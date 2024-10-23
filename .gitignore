@@ -26,4 +26,4 @@ muse/data/
 
 plot/
 plot/figures/
-*.sh
+# *.sh
