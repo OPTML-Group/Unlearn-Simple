@@ -3,7 +3,7 @@
 # Simplicity Prevails: Rethinking Negative Preference Optimization for LLM Unlearning
 
 [![preprint](https://img.shields.io/badge/arXiv-2410.07163-B31B1B)](https://arxiv.org/abs/2410.07163)
-[![issues](https://img.shields.io/badge/Issues-Welcome!-yellow)](https://github.com/OPTML-Group/Unlearn-Saliency/issues)
+[![issues](https://img.shields.io/badge/Issues-Welcome!-yellow)](https://github.com/OPTML-Group/Unlearn-Simple/issues)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue)](https://github.com/OPTML-Group/Unlearn-Simple?tab=MIT-1-ov-file)
 [![GitHub top language](https://img.shields.io/github/languages/top/OPTML-Group/Unlearn-Simple)](https://github.com/OPTML-Group/Unlearn-Simple)
@@ -34,7 +34,6 @@ In this work, we address the problem of large language model (LLM) unlearning, a
 * [SimNPO on Synthetic data](synthetic)
 
 ## Contributors
-
 * [Chongyu Fan](https://a-f1.github.io/)
 * [Jiancheng Liu](https://ljcc0930.github.io/)
 * [Licong Lin](https://licong-lin.github.io/)
