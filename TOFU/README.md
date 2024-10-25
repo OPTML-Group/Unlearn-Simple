@@ -37,3 +37,9 @@ pip install flash-attn --no-build-isolation
     ```
 
 * Once the unlearning process is complete, the results will be saved in `${save_dir}/checkpoint/aggregate_stat.txt`.
+
+## Download the model directly
+[![Origin on TOFU](https://img.shields.io/badge/Origin-TOFU-green)](https://huggingface.co/OPTML-Group/TOFU-origin-Llama-2-7b-chat)
+[![SimNPO on TOFU Forget05](https://img.shields.io/badge/SimNPO-TOFU(Forget05)-blue)](https://huggingface.co/OPTML-Group/SimNPO-TOFU-forget05-Llama-2-7b-chat)
+[![SimNPO on TOFU Forget10](https://img.shields.io/badge/SimNPO-TOFU(Forget10)-red)](https://huggingface.co/OPTML-Group/SimNPO-TOFU-forget10-Llama-2-7b-chat)
+[![SimNPO on WMDP](https://img.shields.io/badge/SimNPO-WMDP-yellow)](https://huggingface.co/OPTML-Group/SimNPO-WMDP-zephyr-7b-beta)
