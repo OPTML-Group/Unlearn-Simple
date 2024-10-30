@@ -34,6 +34,9 @@ In this work, we address the problem of large language model (LLM) unlearning, a
 * [SimNPO on MUSE](MUSE)
 * [SimNPO on Synthetic data](synthetic)
 
+## Download Models
+To directly using our unlearned model, please refer to our HuggingFace Collection: [🤗OPTML-Group/SimNPO-Unlearned-Models](https://huggingface.co/collections/OPTML-Group/simnpo-unlearned-models-6721751fb02ab0e490ab0017)
+
 ## Contributors
 * [Chongyu Fan](https://a-f1.github.io/)
 * [Jiancheng Liu](https://ljcc0930.github.io/)
