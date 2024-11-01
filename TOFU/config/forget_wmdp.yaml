@@ -5,13 +5,13 @@ LoRA:
   alpha: 32
   dropout: 0.05
 
-lr: 1e-6
+lr: 4e-6
 split: wmdp
 retain_set: wmdp
 batch_size: 4
 gradient_accumulation_steps: 1
 num_epochs: 10
-forget_loss: npo_grad_diff
+forget_loss: simnpo_grad_diff
 
 npo_coeff: 5.0
 grad_diff_coeff: 1.0
