@@ -73,8 +73,10 @@ def unlearn(
         loss_type=loss_type,
         beta=beta,
         coeff=coeff,
-        npo_coeff=npo_coeff
+        npo_coeff=npo_coeff,
+        gamma=gamma
     )
+
     model.config.use_cache = False  # silence the warnings.
     trainer.train(resume_from_checkpoint=resume_from_checkpoint)
     trainer.save_model(out_dir)
