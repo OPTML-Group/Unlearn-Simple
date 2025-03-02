@@ -16,7 +16,7 @@
 <table align="center">
   <tr>
     <td align="center"> 
-      <img src="Images/teaser.png" alt="Teaser" style="width: 700px;"/> 
+      <img src="Images/teaser.png" alt="Teaser" style="width: 1000px;"/> 
       <br>
       <em style="font-size: 18px;">  <strong style="font-size: 18px;">Figure 1:</strong> Systematic overview and experiment highlights of SimNPO.</em>
     </td>
