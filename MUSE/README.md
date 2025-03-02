@@ -82,7 +82,3 @@ ckpt
     ```
 
 - For `News`, we select the result of simnpo from epoch 10. For `Books`, we select the result of simnpo from epoch 10.
-
-## Download the unlearned model directly
-[![SimNPO on MUSE News](https://img.shields.io/badge/SimNPO-News-red)](https://huggingface.co/OPTML-Group/SimNPO-MUSE-News-iclm-7b)
-[![SimNPO on MUSE Books](https://img.shields.io/badge/SimNPO-Books-blue)](https://huggingface.co/OPTML-Group/SimNPO-MUSE-Books-Llama-2-7b)
