@@ -1,4 +1,4 @@
-# TOFU and WMDP
+# TOFU
 
 ## Installation
 
@@ -15,8 +15,6 @@ pip install flash-attn --no-build-isolation
 
 * For TOFU, we use 8 GPUs and fine-tune the model for 5 epochs with a learning rate of 1e-5 to obtain the origin model. The origin model can be downloaded directly from [here](https://drive.google.com/drive/folders/1L47Hf813gal8RD581S3XrWHnY_0ll4y4?usp=sharing).
 
-* For WMDP, you can obtained it from [here](https://huggingface.co/HuggingFaceH4/zephyr-7b-beta).
-
 
 ## Get and evaluate the unlearned model
 
@@ -31,9 +29,6 @@ pip install flash-attn --no-build-isolation
 
     # forget10
     CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 torchrun --nproc_per_node=8 --master_port=$master_port forget.py --config-name=forget.yaml split=forget10 npo_coeff=0.125 beta=4.5
-
-    # wmdp
-    CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 torchrun --nproc_per_node=8 --master_port=$master_port forget_wmdp.py --config-name=forget_wmdp.yaml
     ```
 
 * Once the unlearning process is complete, the results will be saved in `${save_dir}/checkpoint/aggregate_stat.txt`.
@@ -42,4 +37,3 @@ pip install flash-attn --no-build-isolation
 [![Origin on TOFU](https://img.shields.io/badge/Origin-TOFU-green)](https://huggingface.co/OPTML-Group/TOFU-origin-Llama-2-7b-chat)
 [![SimNPO on TOFU Forget05](https://img.shields.io/badge/SimNPO-TOFU(Forget05)-blue)](https://huggingface.co/OPTML-Group/SimNPO-TOFU-forget05-Llama-2-7b-chat)
 [![SimNPO on TOFU Forget10](https://img.shields.io/badge/SimNPO-TOFU(Forget10)-red)](https://huggingface.co/OPTML-Group/SimNPO-TOFU-forget10-Llama-2-7b-chat)
-[![SimNPO on WMDP](https://img.shields.io/badge/SimNPO-WMDP-yellow)](https://huggingface.co/OPTML-Group/SimNPO-WMDP-zephyr-7b-beta)

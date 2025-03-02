@@ -766,27 +766,6 @@ def custom_data_collator_forget(samples):
         rets.append((torch.stack(input_ids), torch.stack(labels), torch.stack(attention_mask)))
     return rets
 
-def custom_data_collator_forget_wmdp(samples):
-    rets = []
-    if len(samples[0]) == 3:
-        idk_samples, forget_samples, retain_samples = [sample[0] for sample in samples], [sample[1] for sample in samples], [sample[2] for sample in samples]
-        data_types = ["idk", "forget", "retain"]
-    elif len(samples[0]) == 2:
-        forget_samples, retain_samples = [sample[0] for sample in samples], [sample[1] for sample in samples]
-        data_types = ["forget", "retain"]
-    for data_type in data_types:
-        if data_type == "forget":
-            data = forget_samples 
-        elif data_type == "retain":
-            data = retain_samples 
-        elif data_type == "idk":
-            data = idk_samples
-        
-        input_ids = [s["input_ids"] for s in data]
-        labels = [s["labels"] for s in data]
-        attention_mask = [s["attention_mask"] for s in data]
-        rets.append((torch.stack(input_ids), torch.stack(labels), torch.stack(attention_mask)))
-    return rets
 
 def compute_metrics(pred):
     logits, labels = torch.from_numpy(pred.predictions), torch.from_numpy(pred.label_ids)

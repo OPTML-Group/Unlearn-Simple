@@ -1,0 +1,37 @@
+{
+    "overall": {
+        "model_name": "HuggingFaceH4/zephyr-7b-beta",
+        "logger": "json",
+        "cache_dir": "./.cache",
+        "seed": 1
+    },
+    "unlearn": {
+        "unlearn_method": "Relearn",
+        "num_epochs": 3,
+        "lr": 1e-05,
+        "weight_decay": 0.0,
+        "gradient_accumulation_steps": 4,
+        "mask_path": null,
+        "task_name": "wmdp",
+        "sophia": false,
+        "p": 0.01,
+        "q": 0.01,
+        "resume_path": null,
+        "max_steps": 100,
+        "use_lora": false,
+        "mu": 1e-06
+    },
+    "dataset": {
+        "forget_dataset_name": "WMDPBio",
+        "retain_dataset_name": "WMDPBio",
+        "dataset_seed": 42,
+        "forget_ratio": 1.0,
+        "self_retain": false,
+        "batch_size": 1
+    },
+    "logger": {
+        "json": {
+            "root": "files/results/unlearn_wmdp_bio/Relearn+Forget"
+        }
+    }
+}

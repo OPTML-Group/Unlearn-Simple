@@ -81,7 +81,7 @@ ckpt
     --out_file "out.csv"
     ```
 
-- For `News`, we select the result of simnpo from epoch 8. For `Books`, we select the result of simnpo from epoch 10.
+- For `News`, we select the result of simnpo from epoch 10. For `Books`, we select the result of simnpo from epoch 10.
 
 ## Download the unlearned model directly
 [![SimNPO on MUSE News](https://img.shields.io/badge/SimNPO-News-red)](https://huggingface.co/OPTML-Group/SimNPO-MUSE-News-iclm-7b)
