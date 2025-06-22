@@ -5,7 +5,7 @@ import numpy as np
 import torch
 from transformers import Trainer
 
-from .base import BaseTrainer, SAMTrainer, RSTrainer
+from .base import BaseTrainer
 
 from torch import nn
 from typing import Dict, Union, Any

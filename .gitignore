@@ -26,6 +26,13 @@ muse/metrics/__pycache__/
 muse/temp/
 muse/data/
 
+WMDP/files
+
+plot/
+plot/figures/
+*.cache
+*__pycache__
+
 plot/
 plot/figures/
 # *.sh

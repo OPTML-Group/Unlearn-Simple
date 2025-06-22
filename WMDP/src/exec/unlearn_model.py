@@ -25,12 +25,8 @@ Section("unlearn", "Unlearning configs").params(
         OneOf(
             [
                 "GA+FT",
-                "GA+FT+SAM",
                 "NPO+FT",
-                "NPO+FT+SAM",
-                "NPO+FT+RS",
-                "NPO+FT+GNR",
-                "NPO+FT+CR",
+                "SimNPO+FT"
             ]
         ),
         default="NPO+FT+SAM",
@@ -62,50 +58,17 @@ Section("unlearn.NPO+FT", "NPO+FT unlearning configs").enable_if(
     beta=Param(float, default=1.0, desc="hyperparameters under NPO loss"),
 )
 
-# for sam
-Section("unlearn.NPO+FT+SAM", "NPO+FT+SAM unlearning configs").enable_if(
-    lambda cfg: cfg["unlearn.unlearn_method"] == "NPO+FT+SAM"
+Section("unlearn.SimNPO+FT", "SimNPO+FT unlearning configs").enable_if(
+    lambda cfg: cfg["unlearn.unlearn_method"] == "SimNPO+FT"
 ).params(
-    gamma=Param(float, default=0.0, desc="hyperparameters before NPO loss"),
-    beta=Param(float, default=1.0, desc="hyperparameters under NPO loss"),
-    sam_rho=Param(float, default=0.01, desc="Rho for SAM"),
-)
-
-Section("unlearn.NPO+FT+RS", "NPO+FT+RS unlearning configs").enable_if(
-    lambda cfg: cfg["unlearn.unlearn_method"] == "NPO+FT+RS"
-).params(
-    gamma=Param(float, default=0.0, desc="hyperparameters before NPO loss"),
-    beta=Param(float, default=1.0, desc="hyperparameters under NPO loss"),
-    sam_rho=Param(float, default=0.01, desc="Rho for SAM"),
-)
-
-Section("unlearn.NPO+FT+CR", "NPO+FT+CR unlearning configs").enable_if(
-    lambda cfg: cfg["unlearn.unlearn_method"] == "NPO+FT+CR"
-).params(
-    gamma=Param(float, default=0.0, desc="hyperparameters before NPO loss"),
-    beta=Param(float, default=1.0, desc="hyperparameters under NPO loss"),
-    gnr_rho=Param(float, default=0.01, desc="Rho for GNR"),
-)
-
-Section("unlearn.NPO+FT+GNR", "NPO+FT+GNR unlearning configs").enable_if(
-    lambda cfg: cfg["unlearn.unlearn_method"] == "NPO+FT+GNR"
-).params(
-    gamma=Param(float, default=0.0, desc="hyperparameters before NPO loss"),
-    beta=Param(float, default=1.0, desc="hyperparameters under NPO loss"),
-    gnr_rho=Param(float, default=0.01, desc="Rho for GNR"),
+    gamma=Param(float, default=0.0, desc="hyperparameters before SimNPO loss"),
+    beta=Param(float, default=1.0, desc="hyperparameters under SimNPO loss"),
 )
 
 Section("unlearn.GA+FT", "GA+FT unlearning configs").enable_if(
     lambda cfg: cfg["unlearn.unlearn_method"] == "GA+FT"
 ).params(
     gamma=Param(float, default=0.0, desc="hyperparameters before GA loss"),
-)
-
-Section("unlearn.GA+FT+SAM", "GA+FT+SAM unlearning configs").enable_if(
-    lambda cfg: cfg["unlearn.unlearn_method"] == "GA+FT+SAM"
-).params(
-    gamma=Param(float, default=0.0, desc="hyperparameters before GA loss"),
-    sam_rho=Param(float, default=0.01, desc="Rho for SAM"),
 )
 
 Section("dataset", "Dataset configs").params(
