@@ -1,0 +1,27 @@
+torch
+transformers
+# datasets
+tqdm
+numpy
+pandas
+scikit-learn
+notebook
+accelerate
+rouge-score
+seaborn
+matplotlib
+hdbscan
+# scipy
+# matplotlib
+# einops
+# huggingface-hub
+
+# tokenizers
+# ipykernel
+# ipython>=8.24
+# ipywidgets
+# protobuf
+# python-dotenv
+# scienceplots
+# openai>=1.23
+# bitsandbytes

@@ -1,6 +1,13 @@
+import os
+import sys
+
+HERE = os.path.abspath(__file__)
+TOFU_DIR = os.path.abspath(os.path.join(HERE, "..", ".."))
+sys.path.append(TOFU_DIR)
+
 from tqdm import tqdm
 from data_module import TextDatasetQA
-from unlearn_author.data_module import custom_data_collator
+from data_module import custom_data_collator
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig
 import os, hydra
@@ -8,7 +15,7 @@ import evaluate
 import json
 from pathlib import Path
 from rouge_score import rouge_scorer
-from ..utils import get_model_identifiers_from_yaml
+from utils import get_model_identifiers_from_yaml
 
 
 @hydra.main(version_base=None, config_path="config", config_name="eval")
@@ -184,5 +191,6 @@ def eval_rouge_recall(gen_outputs, ground_truths):
     return {'rouge1_recall': rouge1_recall, 'rougeL_recall': rougeL_recall}
 
 if __name__ == "__main__":
-    main()
+    # main()
+    pass
 

@@ -36,3 +36,10 @@ plot/figures/
 plot/
 plot/figures/
 # *.sh
+
+# Add new
+MUSE/data/
+MUSE/simnpo_news_eval.csv
+MUSE/temp/
+
+**/*plots*/

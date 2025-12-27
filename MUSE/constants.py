@@ -1,4 +1,4 @@
-SUPPORTED_METRICS = ['verbmem_f', 'privleak', 'knowmem_f', 'knowmem_r']
+SUPPORTED_METRICS = ['verbmem_f', 'privleak', 'knowmem_f', 'knowmem_r', 'loss_landscape']
 
 CORPORA = ['news', 'books']
 

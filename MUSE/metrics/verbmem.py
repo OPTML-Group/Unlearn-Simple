@@ -11,22 +11,26 @@ def eval(
 ):
     logger = RougeEvalLogger()
     for prompt, gt in tzip(prompts, gts):
-        # Encode the `prompt` into `input_ids`
-        input_ids = tokenizer(
+        # Encode the `prompt` into `input_ids` and `attention_mask`
+        inputs = tokenizer(
             prompt,
             return_tensors='pt',
             add_special_tokens=True
-        ).input_ids
+        )
+        input_ids = inputs.input_ids
+        attention_mask = inputs.attention_mask
         assert len(input_ids) == 1
 
         gt_ids = tokenizer(gt, return_tensors='pt', add_special_tokens=True).input_ids[:, :max_new_tokens]
 
         # Use the `model` to generate the continuation of the `input_ids`.
         output_ids = model.generate(
-            input_ids.to(model.device),
+            input_ids=input_ids.to(model.device),
+            attention_mask=attention_mask.to(model.device),
             max_new_tokens=max_new_tokens,
             do_sample=False,
-            pad_token_id=tokenizer.pad_token_id)
+            pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
+        )
         output_ids = output_ids[:, len(input_ids[0]):]
         output = tokenizer.batch_decode(
             output_ids,
